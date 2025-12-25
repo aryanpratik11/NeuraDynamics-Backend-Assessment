@@ -1,0 +1,6 @@
+node_modules/
+schema
+.env
+uploads/
+
+postgres_data/
