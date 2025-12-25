@@ -3,6 +3,7 @@
 
 import fs from "fs";
 import pool from "../config/db.js";
+import { sendUploadStatus } from "../ws/updateStatus.js";
 
 // Upload a document
 export const uploadDocument = async (req, res) => {
@@ -13,10 +14,14 @@ export const uploadDocument = async (req, res) => {
     }
 
     try {
+        sendUploadStatus("Initiated");
+        sendUploadStatus("Saving to Disk");
         await pool.query(
             `INSERT INTO documents (title, file_path, user_id, category_id) VALUES ($1, $2, $3, $4)`,
             [title, req.file.path, req.user.id, categoryId]
         );// store metadata in database
+        sendUploadStatus("Database Updated");
+        sendUploadStatus("Complete");
 
         res.status(201).json({ message: "Document uploaded successfully" });
     } catch (err) {

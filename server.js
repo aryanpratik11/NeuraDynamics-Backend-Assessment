@@ -8,9 +8,11 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import http from "http";
 import authenticateToken from "./middleware/auth.js";
 import userRouter from "./routes/userRoute.js";
 import docRouter from "./routes/docRoute.js";
+import { initWebSocket } from "./ws/updateStatus.js";
 
 dotenv.config();
 
@@ -27,7 +29,10 @@ app.use("/auth", userRouter); //authentication related routes
 app.use("/documents", docRouter); //document management routes
 
 
-//Start Server
-app.listen(PORT, () => {
+//Server & WebSocket Setup
+const server = http.createServer(app);
+initWebSocket(server);
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
