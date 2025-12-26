@@ -19,8 +19,10 @@ A secure, containerized RESTful API for managing a document repository. Users ca
 
 * **Backend**: Node.js, Express.js
 * **Database**: PostgreSQL
-* **Auth**: JWT, bcrypt
+* **Authentication**: JWT, bcrypt
 * **File Uploads**: Multer
+* **Real-Time**: WebSockets (ws)
+* **Testing**: Jest + Supertest
 * **Containerization**: Docker, docker-compose
 
 ---
@@ -29,6 +31,8 @@ A secure, containerized RESTful API for managing a document repository. Users ca
 
 ```
 NeuraDynamics/
+├── __tests__/
+│   └── auth_documents.test.js
 ├── config/
 │   └── db.js
 ├── controllers/
@@ -42,6 +46,10 @@ NeuraDynamics/
 ├── uploads/
 ├── utils/
 │   └── multer.js
+├── ws/
+│   └── updateStatus.js
+├── .dockerignore
+├── .gitignore
 ├── docker-compose.yml
 ├── Dockerfile
 ├── package.json
@@ -100,6 +108,17 @@ http://localhost:3000
 
 ---
 
+## Real-Time Upload Status (WebSocket)
+
+A WebSocket endpoint provides real-time upload progress updates.
+
+```
+ws://localhost:3000/ws/upload-status
+```
+This allows clients to receive live feedback during file uploads.
+---
+
+
 ## 🛠️ Database Initialization (First Run)
 
 After containers start, initialize tables:
@@ -157,5 +176,18 @@ curl -X POST http://localhost:3000/documents/upload \
   -F "categoryId=1" \
   -F "file=file.pdf"
 ```
+
+---
+
+## Testing
+
+Automated tests are implemented using Jest and Supertest to test user registration & login, document upload by a User A & User B cannot delete User A’s document (403 response).
+
+
+### Run Tests (LOCAL ONLY)
+```bash
+  npm test
+```
+**NOTE: Tests are intended to be run locally, not inside Docker containers.**
 
 ---

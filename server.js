@@ -32,7 +32,11 @@ app.use("/documents", docRouter); //document management routes
 //Server & WebSocket Setup
 const server = http.createServer(app);
 initWebSocket(server);
-server.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
 
+export { app, server };
+
+if (process.env.NODE_ENV !== "test") {
+  server.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
