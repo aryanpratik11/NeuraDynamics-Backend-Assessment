@@ -116,10 +116,11 @@ A WebSocket endpoint provides real-time upload progress updates.
 ws://localhost:3000/ws/upload-status
 ```
 This allows clients to receive live feedback during file uploads.
+
 ---
 
 
-## 🛠️ Database Initialization (First Run)
+## Database Initialization (First Run)
 
 After containers start, initialize tables:
 
